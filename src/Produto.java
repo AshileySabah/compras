@@ -8,6 +8,10 @@ public class Produto {
         this.valor = valor;
     }
 
+    public double getValor() {
+        return valor;
+    }
+
     @Override
     public String toString() {
         return "Produto: " + this.nome.toUpperCase() + " - Valor: R$ " + this.valor;
