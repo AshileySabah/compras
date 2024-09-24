@@ -1,22 +1,23 @@
 import java.util.Scanner;
 
 public class App {
+    private static Scanner scanner = new Scanner(System.in);
+    private static Carrinho carrinho = new Carrinho();
+    private static Pagamento pagamento;
+
     public static void main(String[] args) throws Exception {
-        double limiteGastos = 0;
+        inicializarLimite();
+        exibirMenu();
+    }
 
-        int option = 1;
-
-        String nomeProduto;
-        double valorProduto;
-
-        Scanner scanner = new Scanner(System.in);
-
+    private static void inicializarLimite() {
         System.out.print("Digite seu seu limite de gastos: ");
-        limiteGastos = scanner.nextDouble();
+        double limiteGastos = scanner.nextDouble();
+        pagamento = new Pagamento(limiteGastos, carrinho);
+    }
 
-        Carrinho carrinho = new Carrinho();
-
-        Pagamento pagamento = new Pagamento(limiteGastos, carrinho);
+    private static void exibirMenu() {
+        int option = 1;
 
         while (option != 0) {
             System.out.println("");
@@ -32,70 +33,85 @@ public class App {
             System.out.println("");
             System.out.println("---------");
 
-            switch (option) {
-                case 1:
-                    System.out.println("1 - Adicionar produto");
+            processarOpcao(option);
+        }
+    }
 
-                    System.out.print("Digite o nome do produto que deseja adicionar no carrinho: ");
-                    nomeProduto = scanner.next();
+    private static void processarOpcao(int option) {
+        switch (option) {
+            case 1:
+                adicionarProduto();
+                break;
+            case 2:
+                conferirLimite();
+                break;
+            case 3:
+                adicionarLimite();
 
-                    System.out.print("Digite o valor de *" + nomeProduto + "*: ");
-                    valorProduto = scanner.nextDouble();
+                break;
+            case 4:
+                conferirProdutos();
+                break;
+            case 5:
+                conferirCustoTotal();
+                break;
+            case 0:
+                System.out.println("0 - Sair de Compras");
+                System.out.println("Saindo...");
+                break;
+            default:
+                System.out.println("Opção inválida. Tente novamente.");
+        }
+    }
 
-                    Produto produto = new Produto(nomeProduto, valorProduto);
+    public static void adicionarProduto() {
+        System.out.println("1 - Adicionar produto");
 
-                    carrinho.adicionarProduto(produto);
+        System.out.print("Digite o nome do produto que deseja adicionar no carrinho: ");
+        String nomeProduto = scanner.next();
 
-                    break;
-                case 2:
-                    System.out.println("2 - Conferir limite");
+        System.out.print("Digite o valor de *" + nomeProduto + "*: ");
+        double valorProduto = scanner.nextDouble();
 
-                    if (pagamento.getLimite() >= 0) {
-                        pagamento.getLimite();
-                        System.out.println("Você está dentro do limite. Restou R$ " + pagamento.getLimite() + " para mais compras.");
-                    } else {
-                        System.out.println("Você excedeu o limite em R$ " + pagamento.getLimite()*-1);
-                    }
+        Produto produto = new Produto(nomeProduto, valorProduto);
 
-                    break;
-                case 3:
-                    System.out.println("3 - Adicionar limite");
+        carrinho.adicionarProduto(produto);
+    }
 
-                    System.out.print("Digite o valor de adicional: ");
-                    double valorAdicional = scanner.nextDouble();
+    public static void conferirLimite() {
+        System.out.println("2 - Conferir limite");
 
-                    pagamento.adicionarLimite(valorAdicional);
-                    
-                    System.out.println("Seu novo limite é R$ " + pagamento.getLimite());
+        if (pagamento.getLimite() >= 0) {
+            pagamento.getLimite();
+            System.out.println("Você está dentro do limite. Restou R$ " + pagamento.getLimite() + " para mais compras.");
+        } else {
+            System.out.println("Você excedeu o limite em R$ " + pagamento.getLimite()*-1);
+        }
+    }
 
-                    break;
-                case 4:
-                    System.out.println("4 - Conferir produtos");
-                
-                    for (Produto eachProduto : carrinho.getProdutos() ) {
-                        System.out.println(eachProduto);
-                    }
+    private static void adicionarLimite() {
+        System.out.println("3 - Adicionar limite");
 
-                    System.out.println(carrinho.getProdutos());
+        System.out.print("Digite o valor de adicional: ");
+        double valorAdicional = scanner.nextDouble();
 
-                    break;
-                case 5:
-                    System.out.println("5 - Conferir custo total");
+        pagamento.adicionarLimite(valorAdicional);
+        
+        System.out.println("Seu novo limite é R$ " + pagamento.getLimite());
+    }
 
-                    System.out.println(carrinho.getCustoTotal());;
-
-                    break;
-                case 0:
-                    System.out.println("0 - Sair de Compras");
-
-                    System.out.println("Saindo...");
-
-                    break;
-                default:
-                    break;
-            }
+    private static void conferirProdutos(){
+        System.out.println("4 - Conferir produtos");
+            
+        for (Produto eachProduto : carrinho.getProdutos() ) {
+            System.out.println(eachProduto);
         }
 
-        scanner.close();
+        System.out.println(carrinho.getProdutos());
+    }
+
+    private static void conferirCustoTotal() {
+        System.out.println("5 - Conferir custo total");
+        System.out.println(carrinho.getCustoTotal());
     }
 }
