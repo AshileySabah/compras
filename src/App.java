@@ -24,10 +24,8 @@ public class App {
             System.out.println("1 - Adicionar produto");
             System.out.println("2 - Conferir limite");
             System.out.println("3 - Adicionar limite");
-            System.out.println("4 - Pagar com boleto");
-            System.out.println("5 - Pagar com pix");
-            System.out.println("6 - Conferir produtos");
-            System.out.println("7 - Conferir custo total");
+            System.out.println("4 - Conferir produtos");
+            System.out.println("5 - Conferir custo total");
             System.out.println("0 - Sair de Compras");
             System.out.println("---------\n");
             option = scanner.nextInt();
@@ -72,15 +70,7 @@ public class App {
 
                     break;
                 case 4:
-                    System.out.println("4 - Pagar com boleto");
-
-                    break;
-                case 5:
-                    System.out.println("5 - Pagar com pix");
-
-                    break;
-                case 6:
-                    System.out.println("6 - Conferir produtos");
+                    System.out.println("4 - Conferir produtos");
                 
                     for (Produto eachProduto : carrinho.getProdutos() ) {
                         System.out.println(eachProduto);
@@ -89,8 +79,8 @@ public class App {
                     System.out.println(carrinho.getProdutos());
 
                     break;
-                case 7:
-                    System.out.println("7 - Conferir custo total");
+                case 5:
+                    System.out.println("5 - Conferir custo total");
 
                     System.out.println(carrinho.getCustoTotal());;
 
